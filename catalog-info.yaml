@@ -2,12 +2,42 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: member-api
+  title: Member API
+  description: Member API
   tags:
     - javascript
+  links:
+    - url: https://github.com/topcoder-platform/member-api
+      title: Github Repo
+      icon: web
+    - url: https://app.circleci.com/pipelines/github/topcoder-platform/member-api
+      title: CircleCI
+      icon: web
+    - url: https://topcoder.atlassian.net/wiki/spaces/PLAT/pages/2821947554/Member+API
+      title: Member API
+      icon: web
   annotations:
     backstage.io/source-location: url:https://github.com/topcoder-platform/member-api
     github.com/project-slug: topcoder-platform/member-api
+    circleci.com/project-slug: github/topcoder-platform/member-api
 spec:
   type: service
-  owner: backstage-dev
+  owner: platform
   lifecycle: production
+  system: Member
+  providesApis:
+    - member-api
+  consumesApis:
+    - bus-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: member-api
+spec:
+  type: openapi
+  lifecycle: production
+  owner: platform
+  system: Member
+  definition:
+    $text: https://github.com/topcoder-platform/member-api/blob/master/docs/swagger.yaml
