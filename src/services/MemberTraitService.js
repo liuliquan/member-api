@@ -75,6 +75,9 @@ async function getTraits (currentUser, handle, query) {
       })
       return traits
     })
+    // send event to Harmony
+    await helper.sendHarmonyEvent(constants.EVENT_TYPE.CREATE, constants.PAYLOAD_TYPE.TRAITS,
+      result.map(item => ({id: `${item.userId}${item.traits.traitId}`, ...item})))
   }
   // keep only those of given trait ids
   if (traitIds) {
@@ -168,6 +171,11 @@ async function createTraits (currentUser, handle, data) {
     // cleanup sensitive traits
     result.push(_.omit(trait, ['userId']))
   }
+
+  // send event to Harmony
+  await helper.sendHarmonyEvent(constants.EVENT_TYPE.CREATE, constants.PAYLOAD_TYPE.TRAITS,
+    result.map(item => ({id: `${member.userId}${item.traitId}`, userId: member.userId, ...item})))
+
   return result
 }
 
@@ -232,6 +240,11 @@ async function updateTraits (currentUser, handle, data) {
     // cleanup sensitive traits
     result.push(_.omit(origUpdateDb, ['userId']))
   }
+
+  // send event to Harmony
+  await helper.sendHarmonyEvent(constants.EVENT_TYPE.UPDATE, constants.PAYLOAD_TYPE.TRAITS,
+    result.map(item => ({id: `${member.userId}${item.traitId}`, userId: member.userId, ...item})))
+
   return result
 }
 
@@ -276,6 +289,9 @@ async function removeTraits (currentUser, handle, query) {
       updatedAt: new Date(),
       updatedBy: currentUser.userId || currentUser.sub
     })
+    // send event to Harmony
+    await helper.sendHarmonyEvent(constants.EVENT_TYPE.DELETE, constants.PAYLOAD_TYPE.TRAITS,
+      memberProfileTraitIds.map(traitId => ({id: `${member.userId}${traitId}`, userId: member.userId, traitId})))
   }
 }
 
