@@ -71,6 +71,7 @@ const harmonyClient = new AWS.Lambda({apiVersion: "latest"})
 async function sendHarmonyEvent(eventType, payloadType, payload) {
   const event = {
     publisher: constants.EVENT_ORIGINATOR,
+    timestamp: new Date().getTime(),
     eventType,
     payloadType,
     payload
