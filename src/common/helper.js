@@ -76,7 +76,7 @@ async function sendHarmonyEvent(eventType, payloadType, payload) {
     payloadType,
     payload
   }
-  if (payloadType === constants.PAYLOAD_TYPE.MEMBER) {
+  if (payloadType === constants.PAYLOAD_TYPE.MEMBER || payloadType === constants.PAYLOAD_TYPE.TRAITS) {
     // For Member payload, set id as userId
     event.payload = {
       id: `${payload.userId}`,

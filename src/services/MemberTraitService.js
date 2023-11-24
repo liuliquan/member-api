@@ -174,7 +174,10 @@ async function createTraits (currentUser, handle, data) {
 
   // send event to Harmony
   await helper.sendHarmonyEvent(constants.EVENT_TYPE.CREATE, constants.PAYLOAD_TYPE.TRAITS,
-    result.map(item => ({id: `${member.userId}${item.traitId}`, userId: member.userId, ...item})))
+    {
+      userId: member.userId,
+      traitItems: result
+    })
 
   return result
 }
@@ -243,7 +246,10 @@ async function updateTraits (currentUser, handle, data) {
 
   // send event to Harmony
   await helper.sendHarmonyEvent(constants.EVENT_TYPE.UPDATE, constants.PAYLOAD_TYPE.TRAITS,
-    result.map(item => ({id: `${member.userId}${item.traitId}`, userId: member.userId, ...item})))
+    {
+      userId: member.userId,
+      traitItems: result
+    })
 
   return result
 }
@@ -291,7 +297,10 @@ async function removeTraits (currentUser, handle, query) {
     })
     // send event to Harmony
     await helper.sendHarmonyEvent(constants.EVENT_TYPE.DELETE, constants.PAYLOAD_TYPE.TRAITS,
-      memberProfileTraitIds.map(traitId => ({id: `${member.userId}${traitId}`, userId: member.userId, traitId})))
+      {
+        userId: member.userId,
+        traitItems: memberProfileTraitIds.map(traitId => ({traitId}))
+      })
   }
 }
 
